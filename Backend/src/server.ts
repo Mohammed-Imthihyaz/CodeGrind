@@ -1,3 +1,4 @@
+import cors from "cors";
 import dotenv from 'dotenv';
 import express from 'express';
 import connectDB from './Connect_MongoDB/connect_DB';
@@ -8,8 +9,10 @@ const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
+
 const app=express();
 const port: number = Number(process.env.PORT) || 5050;
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
