@@ -117,22 +117,42 @@ export const forgetPassword = async (
   }
 };
 
-export const resetPassword=async(req:Request,res:Response): Promise<any>=>{
-      const {token}=req.params;
-      const {password} =req.body;
-      const user =await User.findOne({
-        resetPasswordToken:token,
-        resetPasswordExpiresAt:{$gt: Date.now()},
+export const resetPassword = async (req: Request, res: Response): Promise<any> => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpiresAt: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Invalid or expired token" 
       });
-      if(!user){
-        return res.status(400).json({success:false,message:"session expired"});
-      }
-      const hashpass=await bcryptjs.hash(password,10);
-      user.password =hashpass;
-      user.resetPasswordToken=undefined;
-      user.resetPasswordExpiresAt=undefined;
-      user.save();
-}
+    }
+    const hashedPassword = await bcryptjs.hash(password, 10);
+
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpiresAt = undefined;
+    
+    await user.save();
+
+    return res.status(200).json({ 
+      success: true, 
+      message: "Password reset successfully" 
+    });
+  } catch (error) {
+    console.error("Error in resetPassword:", error);
+    return res.status(500).json({ 
+      success: false, 
+      message: "Internal server error" 
+    });
+  }
+};
 
 export const checkAuth=async(req:AuthenticatedRequest,res:Response):Promise<any>=>{
   try {

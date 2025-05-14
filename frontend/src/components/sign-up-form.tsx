@@ -1,3 +1,4 @@
+import { PasswordCheck } from "@/Pages/passwordcriteria"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -13,26 +14,29 @@ import { authStore } from "@/store/auth.store"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 
-export function LoginForm({
+export function SignUpForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
     const navigate =useNavigate()
-    const { login, isAuthenticated, checkAuth, error } = authStore();
+    const {signup,isAuthenticated,checkAuth,error}=authStore();
     const [email,setEmail] =useState("");
     const [password,setPassword] =useState("");
-    const LoginHandler = async (e: any) => {
+    const [name,setName] =useState("");
+
+
+    const signUpHandler = async (e: any) => {
       e.preventDefault();
-      if (!email || !password) {
-        alert("Both fields are required");
+      if (!email || !password || !name) {
+        alert("All fields are required");
         return;
       }
     
-      await login(email, password);
+      await signup(email, password, name);
     
       const currentError = authStore.getState().error;
       if (!currentError) {
-        navigate('/');
+        navigate("/");
       }
     };
     
@@ -45,7 +49,7 @@ export function LoginForm({
     
     useEffect(() => {
       if (isAuthenticated) {
-        navigate('/');
+        navigate("/");
       }
     }, [isAuthenticated]);
     
@@ -53,16 +57,26 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Create an account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your details to create an account !
           </CardDescription>
-          {error && <p className="text-red-600 font-semibold">{error}</p>}
         </CardHeader>
         <CardContent>
-
           <form>
             <div className="flex flex-col gap-6">
+            {error !=="Unauthorized - no token provided" && <p className="text-red-600 font-semibold mt-2">{error}</p>}
+            <div className="grid gap-2">
+                <Label htmlFor="name">name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={name}
+                  placeholder="john doe"
+                  required
+                  onChange={(e)=>{setName(e.target.value)}}
+                />
+              </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -77,23 +91,18 @@ export function LoginForm({
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="/frogetpassword"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
                 <Input id="password" type="password" required  value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                <PasswordCheck password ={password}/>
               </div>
-              <Button type="submit" className="w-full" onClick={LoginHandler}>
-                Login
+              <Button type="submit" className="w-full" onClick={signUpHandler}>
+              Create Account
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <a href="/signup" className="underline underline-offset-4">
-                Sign up
+             Already have an account?{" "}
+              <a href="/login" className="underline underline-offset-4">
+              Log in
               </a>
             </div>
           </form>

@@ -14,17 +14,17 @@ const HomePage = () => {
         await checkAuth();
     };
     verifyAuth();
-  }, [user, checkAuth]);
+  }, [checkAuth]);
   useEffect(() => {
     if (user && !isAuthenticated) {
       toast.error("You are not Authenticated");
     }
-  }, [user, isAuthenticated]);
+  },  [isAuthenticated]);
 
   const handleSubscribe = async() => {
     if (isAuthenticated && user && !isSubscriber) {
-        await subscribe();
-        toast("You have subscibed successfully ");
+        await subscribe()
+        toast.success("You have subscibed successfully ");
     } else {
         toast("Please Login before subscibe");
       setTimeout(()=>{
@@ -55,9 +55,31 @@ const HomePage = () => {
             <Toaster />
           </button>
         ) : (
-            <div  className="text-center p-4  rounded-lg bg-white shadow-sm">
-              <h3 className="font-bold mt-2">YOU ARE A SUBSCRIBER !!</h3>
+          <div className="mt-2 p-6 border border-emerald-200 rounded-lg bg-emerald-50/50 backdrop-blur-sm max-w-md w-full">
+          <div className="flex items-center justify-center">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+              className="text-emerald-600"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <div>
+              <h3 className="font-bold text-emerald-800 text-2xl">Access Active</h3>
+              <p className="text-md text-emerald-600 mt-1">
+                You're receiving daily problems at {user?.email}
+              </p>
             </div>
+          </div>
+        </div>
         )}
 
         <div className="mt-8 flex flex-wrap justify-center gap-6 items-center max-w-2xl">
@@ -67,10 +89,10 @@ const HomePage = () => {
             </div>
           ))}
         </div>
-
+        
         <div className="mt-12 max-w-2xl mx-auto">
           <p className="text-sm text-muted-foreground italic">
-            "A structured and focused approach to practice helped me take real steps toward landing an opportunity at Google."
+            "This is the kick I needed! Solved 50+ problems in 30 days."
           </p>
           <p className="text-sm font-medium mt-2">— @SultanMoghal, Senior SDE at Samsung</p>
         </div>
