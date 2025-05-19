@@ -1,8 +1,7 @@
-Here's a professional README.md file for your DSA practice platform project:
 
 ```markdown
 # DSA Daily - AI-Powered Coding Practice System
-
+```
 ## 🚀 Key Achievements
 
 - ⚡ **40% Engagement Boost**: Automated daily problem delivery system increased user consistency
@@ -46,15 +45,6 @@ Here's a professional README.md file for your DSA practice platform project:
 - React.js (Dashboard interface)
 - Chart.js (Performance visualization)
 - Tailwind CSS (Styling)
-
-## 📸 System Overview
-
-### 🖥️ User Dashboard
-![Dashboard Preview](https://example.com/path-to-dashboard-screenshot.jpg)
-
-### 📱 Daily Problem View
-![Problem Interface](https://example.com/path-to-problem-view.jpg)
-
 
 ## 🚀 Installation Guide
 
