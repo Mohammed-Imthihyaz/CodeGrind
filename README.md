@@ -103,6 +103,3 @@ We welcome contributions! Please follow these steps:
 ## 📄 License
 
 MIT License - See LICENSE.md for details
-
----
-```
