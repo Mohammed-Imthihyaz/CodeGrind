@@ -119,12 +119,21 @@ export const forgetPassword = async (
 
 export const resetPassword = async (req: Request, res: Response): Promise<any> => {
   const { token } = req.params;
-  const { password } = req.body;
+  const { password, confirmPassword } = req.body; 
 
   try {
+   
+    if (password !== confirmPassword) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Passwords do not match" 
+      });
+    }
+
+   
     const user = await User.findOne({
       resetPasswordToken: token,
-      resetPasswordExpiresAt: { $gt: Date.now() },
+      resetPasswordExpiresAt: { $gt: new Date() }, 
     });
 
     if (!user) {
@@ -133,13 +142,21 @@ export const resetPassword = async (req: Request, res: Response): Promise<any> =
         message: "Invalid or expired token" 
       });
     }
+
+   
     const hashedPassword = await bcryptjs.hash(password, 10);
 
+   
     user.password = hashedPassword;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpiresAt = undefined;
     
-    await user.save();
+   
+    const savedUser = await user.save();
+    
+    if (!savedUser) {
+      throw new Error("Failed to save user");
+    }
 
     return res.status(200).json({ 
       success: true, 

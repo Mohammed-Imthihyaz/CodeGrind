@@ -9,7 +9,7 @@ router.post('/signup', signUpDetails);
 router.post('/login',loginDetails);
 router.post('/forgetPassword',forgetPassword);
 router.post('/logout',logout);
-router.post('/resetpassword/:token',resetPassword);
+router.post('/reset-password/:token',resetPassword);
 router.get('/check-auth',verifyToken,checkAuth);
 router.post('/subscriber',verifyToken,subscribe)
 export default router;

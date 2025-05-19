@@ -49,8 +49,8 @@ export function ForgetPassword({
               </CardDescription>
             </CardHeader>
             
-            <CardContent>
-              {!isSubmitted? (<form>
+            {!isSubmitted? (<CardContent>
+                <form>
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
@@ -79,13 +79,16 @@ export function ForgetPassword({
                     Log in.
                   </a>
                 </div>
-              </form>):(
+              </form>
                 <p className="text-black mb-6 text-center">
                 if account exisits for {email}, you will receive a password reset
                 link shortly
               </p>
-              )}
-            </CardContent>
+            </CardContent>):(
+              <div>
+                Loading...
+              </div>
+            )}
           </Card>
         </div>
       </div>

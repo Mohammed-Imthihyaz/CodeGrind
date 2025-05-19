@@ -16,7 +16,7 @@ type Store = {
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   forgetpassword: (email: string) => Promise<void>;
-  resetPassword: (token: string, password: string) => Promise<void>;
+  resetPassword: (token: string, password: string,confirmPassword:string) => Promise<boolean>;
   subscribe:()=>Promise<void>;
 };
 
@@ -115,13 +115,25 @@ export const authStore = create<Store>()((set) => ({
     }
   },
 
-  resetPassword: async (token, password) => {
+  resetPassword: async (token, password, confirmPassword) => {
     try {
       set({ isLoading: true });
-      await axios.post(`${PORT}auth/reset-password/${token}`, { password });
-      set({ isLoading: false, message: "Password reset successful" });
+      const res = await axios.post(
+        `${PORT}auth/reset-password/${token}`, 
+        { password, confirmPassword } 
+      );
+      set({ 
+        isLoading: false, 
+        message: "Password reset successful",
+        error: null
+      });
+      return true; 
     } catch (err: any) {
-      set({ isLoading: false, error: err.response?.data?.message || "Reset failed" });
+      set({ 
+        isLoading: false, 
+        error: err.response?.data?.message || "Reset failed" 
+      });
+      return false;
     }
   },
   subscribe: async () => {
