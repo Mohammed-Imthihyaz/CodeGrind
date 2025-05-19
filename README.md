@@ -106,6 +106,3 @@ MIT License - See LICENSE.md for details
 
 ---
 ```
-
-
-Would you like me to modify any particular section or add more technical implementation details?
