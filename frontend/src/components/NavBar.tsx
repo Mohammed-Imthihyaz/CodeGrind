@@ -28,7 +28,7 @@ export function Navbar() {
             <Link to="/Questions">Questions</Link>
           </Button>
           <Button variant="ghost">
-            <Link to="/Review">Review</Link>
+            <Link to="/Review">Reviews</Link>
           </Button>
           {user == null ? (
             <Menubar className="">

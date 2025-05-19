@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkAuth, forgetPassword, loginDetails, logout, resetPassword, signUpDetails, subscribe } from '../controllers/auth.controller';
+import { allQuestions, checkAuth, forgetPassword, loginDetails, logout, resetPassword, signUpDetails, subscribe } from '../controllers/auth.controller';
 import { verifyToken } from '../middelware/verifyToken';
 
 
@@ -11,5 +11,6 @@ router.post('/forgetPassword',forgetPassword);
 router.post('/logout',logout);
 router.post('/reset-password/:token',resetPassword);
 router.get('/check-auth',verifyToken,checkAuth);
-router.post('/subscriber',verifyToken,subscribe)
+router.post('/subscriber',verifyToken,subscribe);
+router.get('/getquestions',allQuestions);
 export default router;

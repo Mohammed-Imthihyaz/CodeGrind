@@ -11,6 +11,7 @@ type Store = {
   isSubscriber: boolean;
   isCheckingAuth: boolean;
   message: string | null;
+  allQuestions:any;
   signup: (email: string, password: string, name: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -18,6 +19,7 @@ type Store = {
   forgetpassword: (email: string) => Promise<void>;
   resetPassword: (token: string, password: string,confirmPassword:string) => Promise<boolean>;
   subscribe:()=>Promise<void>;
+  getAllQuestions:()=>Promise<void>;
 };
 
 export const authStore = create<Store>()((set) => ({
@@ -28,6 +30,7 @@ export const authStore = create<Store>()((set) => ({
   isLoading: false,
   isCheckingAuth: true,
   message: null,
+  allQuestions:[],
 
   signup: async (email, password, name) => {
     try {
@@ -150,4 +153,29 @@ export const authStore = create<Store>()((set) => ({
       set({ isLoading: false, error: err.response?.data?.message || "Subscription failed" });
     }
   },  
+  getAllQuestions: async () => {
+    try {
+      set({ isLoading: true });
+      const res = await axios.get(`${PORT}auth/getquestions`);
+      console.log("Questions data:", res.data.data);
+      if (res.data.success) {
+        set({ 
+          allQuestions: res.data.data, 
+          isLoading: false,
+          error: null
+        });
+      } else {
+        set({ 
+          isLoading: false,
+          error: "Failed to load questions" 
+        });
+      }
+    } catch (error: any) {
+      console.error("Error fetching questions:", error);
+      set({ 
+        isLoading: false, 
+        error: error.response?.data?.message || "Fetching failed" 
+      });
+    }
+  }
 }));

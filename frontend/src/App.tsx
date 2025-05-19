@@ -4,7 +4,10 @@ import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
 import SingUpPage from "./Pages/SingUpPage";
 
+import QuestionsPage from "./Pages/QuestionsPage";
 import ResetPasswordPage from "./Pages/resetPassword";
+import ReviewPage from "./Pages/ReviewPage";
+import ProfilePage from "./Pages/ProfilePage";
 function App() {
   return (
     <BrowserRouter>
@@ -14,7 +17,10 @@ function App() {
         <Route path="/signup" element={<SingUpPage/>}/>
         <Route path="/frogetpassword" element={<ForgetPassword />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-      </Routes>
+        <Route path="/questions" element={<QuestionsPage/>}/>
+        <Route path="/Review" element={<ReviewPage/>}/>
+        <Route path="/profile" element={<ProfilePage/>}/>
+        </Routes>
     </BrowserRouter>
   );
 }

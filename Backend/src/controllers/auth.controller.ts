@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import crypto from "crypto";
 import dotevn from 'dotenv';
 import { Request, Response } from "express";
+import { QuestionBank } from "../Models/QuestionBank";
 import { User } from "../Models/User.Schema";
 import { sendResetEmail, subscribedtoEmail, welcomeEmail } from "../nodemailer/sendEmails";
 import { AuthenticatedRequest } from "../types/AuthenticatedRequest";
@@ -197,6 +198,19 @@ export const subscribe=async(req:AuthenticatedRequest,res:Response):Promise<any>
        await subscribedtoEmail(user.email);
        res.status(200).json({success:true,message:"subscibed successfully"})
     } catch (error) {
-      
+      res.status(202).json({success:false,message:"something went wrong in subscribing"})
     }
+}
+
+export const allQuestions = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const list = await QuestionBank.find().select('question date -_id'); // Only get question and date fields
+    res.status(200).json({ success: true, data: list });
+  } catch (error) {
+    console.error("Error fetching questions:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Something went wrong in the questions section" 
+    });
+  }
 }
